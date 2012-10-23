@@ -1,1 +1,9 @@
-todo
+To get dependencies:
+    npm install
+
+To run:
+    node integrator.js
+
+The example shows an integrator with a feedbackloop
+
+The idea is to make something awesome.
