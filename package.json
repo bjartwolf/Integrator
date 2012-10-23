@@ -1,0 +1,15 @@
+{
+  "name": "integrator",
+  "version": "0.0.0",
+  "description": "An integrator example in rxjs",
+  "main": "integrator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Bjartwolf",
+  "license": "BSD",
+  "dependencies": {
+    "rx": "~2.0.0"
+  }
+}
