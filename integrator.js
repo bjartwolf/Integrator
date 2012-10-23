@@ -3,28 +3,31 @@ var periodInMs = 100;
 var deltaT = 1/periodInMs;
 var gravity = Rx.Observable.interval(periodInMs).select(function () { return 9.81 ;});
 
-var accelerationIntegrator = (function(initialSpeed) {
+var speedIntegrator = (function(initialSpeed) {
     var speed = initialSpeed,
         airResistance = 0.03;
-    return gravity.select( function (acceleration) {
-        speed += deltaT*(acceleration - airResistance * speed * speed)  ;
+    return gravity.select( function (gravity) {
+        speed += deltaT*(gravity - airResistance * speed * speed);
         return speed;
     });
 }(0)); // Initial value to function (initialSpeed)
 
-var velocityIntegrator = (function(initialPosition) {
+var positionIntegrator = (function(initialPosition) {
     var position = initialPosition;
-    return accelerationIntegrator.select( function (velocity) {
-        position -= deltaT*velocity;
+    return speedIntegrator.select( function (speed) {
+        position -= deltaT*speed;
         if (position < 0) {console.log('CRASH!');}
         return position;
     });
-}(1000)); // Initial value to function (initialPosition)
+}(100)); // Initial value to function (initialPosition)
 
-accelerationIntegrator.subscribe(function (val) {
+speedIntegrator.subscribe(function (val) {
     console.log('Speed: ' + val);
 });
-velocityIntegrator.subscribe(function (val) {
+
+positionIntegrator.subscribe(function (val) {
     console.log('Position: ' + val);
 });
 
+speedIntegrator.take(10).average().subscribe(function (avg) {console.log('AVG SPEED: ' + avg);});
+speedIntegrator.take(100).average().subscribe(function (avg) {console.log('AVG SPEED: ' + avg);});
